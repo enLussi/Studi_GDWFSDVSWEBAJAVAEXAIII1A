@@ -3,25 +3,70 @@ window.onload = () => {
   document.getElementsByTagName('body')[0].style.display = "block";
 }
 
+
+/**
+ * Récupération des élément du DOM
+ */
 var gamePanel = document.getElementById('gamePanel');
+var rules = document.getElementById('rules');
 var battlefield = document.getElementById('battlefield');
 var player1 = document.getElementById('player1');
 var player2 = document.getElementById('player2');
+var actions = document.getElementById('actions');
 var newGame = document.getElementById('newGame');
 var dice = document.getElementById('dice');
 var rollDice = document.getElementById('rollDice');
 var hold = document.getElementById('hold');
+var title = document.getElementById('title');
 
+
+/**
+ * initialisation de la variable Jeu
+ */
 var Jeu = undefined;
-rollDice.style.visibility = "hidden";
-hold.style.visibility = "hidden";
 
+/**
+ * Initialisation de l'affichage des éléments
+ * RollDice, Hold, et Dice
+ */
+rollDice.style.display = "none";
+hold.style.display = "none";
+dice.style.display = "none";
+
+/**
+ * Initialisation de la fenêtre des règles 
+ */
+var showRule = false;
+rules.children[1].style.visibility = 'hidden';
+
+rules.onclick = () => {
+  showRule = !showRule;
+  console.log(showRule);
+  if(showRule) {
+    rules.children[1].style.visibility = 'visible';
+  } else {
+    rules.children[1].style.visibility = 'hidden';
+  }
+}
+
+
+/**
+ * Initialisation des évènements des boutons 
+ * New Game, Roll Dice et Hold
+ */
 newGame.onclick = () => {
-  Jeu = new Partie(new Joueur("Player 1"), new Joueur("Player 2"), 20);
+  Jeu = new Partie(new Joueur("Player 1"), new Joueur("Player 2"), 100);
+
+  rollDice.style.display = "block";
+  hold.style.display = "block";
+  dice.style.display = "block";
+
   rollDice.style.visibility = "visible";
   hold.style.visibility = "visible";
-  console.log('Nouvelle Partie');
-  console.log(Jeu.getJoueurs());
+  dice.style.visibility = "visible";
+
+  title.style.visibility = "hidden";
+
   Jeu.update();
 }
 
@@ -37,6 +82,19 @@ hold.onclick = () => {
   }
 }
 
+
+/**
+ * Classes Joueur 
+ *  Attributs
+ *  Nom, score global, score du tour, et affichage
+ *  
+ *  Méthodes
+ *  setName, getName
+ *  addScoreToTurn pour l'ajout de point dans le score du tour
+ *  resetTurnScore pour réinitialiser les point du score du tour
+ *  addScoreToGlobal pour l'ajout des points dans le score global
+ *  getTurnScore, getGlobalScore
+ */
 class Joueur {
   constructor(nom) {
     this.nom = nom;
@@ -74,11 +132,20 @@ class Joueur {
   }
 }
 
+/**
+ * Classe Partie
+ *  Attribut
+ *  tableau de joueur, l'id du joueur actif, la valeur courante du dé, partie fini (bool), point max
+ * 
+ *  Méthodes
+ *  update, rollDice (jet de dé), hold (fin de tour)
+ *  
+ */
 class Partie {
   constructor(joueur1, joueur2, maxpoint) {
     this.joueurs = [joueur1, joueur2];
     this.actif = 0;
-    this.dice = 6;
+    this.dice = 1;
 
     this.over = false;
     this.maxpoint = maxpoint;
@@ -95,8 +162,16 @@ class Partie {
         this.over = true;
         joueur.html += "<p id=win>Winner</p>";
 
+        player1.style.backgroundColor = "transparent";
+        player2.style.backgroundColor = "transparent";
+
         rollDice.style.visibility = "hidden";
         hold.style.visibility = "hidden";
+        dice.style.visibility = "hidden";
+
+        title.style.visibility = "visible";
+
+
       }
     });
     player1.innerHTML = this.joueurs[0].html;
@@ -116,14 +191,6 @@ class Partie {
       console.log('player 2 actif');
     }
     console.log('update')
-  }
-
-  getActif() {
-    return this.actif;
-  }
-
-  getJoueurs() {
-    return this.joueurs;
   }
 
   rollDice() {

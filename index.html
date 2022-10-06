@@ -32,7 +32,35 @@
   <script src="/js/script.js" defer async></script>
 </head>
 <body>
+  <header id="title">
+    <h1>Roll The Dice</h1>
+  </header>
+  
   <main>
+    <div id="rules">
+      <button><img src="/images/rule.svg" alt="" width="20"></button>
+      <div >
+        <p>
+          Le jeu comprend 2 joueurs sur un seul et même écran.<br>
+          Chaque joueur possède un score temporaire et un score global.<br>
+          À chaque tour, le joueur a son ROUND initialisé à 0 et peut lancer un dé autant de fois qu'il le souhaite. Le
+          résultat d’un lancer est ajouté au ROUND.
+        </p>
+        <p>
+          Lors de son tour, le joueur peut décider à tout moment de:
+          <ul>
+            <li>
+              Cliquer sur l’option “Hold”, qui permet d’envoyer les points du ROUND vers le GLOBAL. Ce sera alors le
+              tour de l’autre joueur.
+            </li>
+            <li>
+              Lancer le dé avec “Roll Dice”. S’il obtient un 1, son score ROUND est perdu et c’est la fin de son tour.
+            </li>
+          </ul>
+          Le premier joueur qui atteint les 100 points gagne le jeu.
+        </p>
+      </div>
+    </div>
     <div id="gamePanel" class="container-fluid text-center">
       <div 
         id="battlefield" 
