@@ -16,6 +16,9 @@ var Jeu = undefined;
 
 newGame.onclick = () => {
   Jeu = new Partie(new Joueur("Player 1"), new Joueur("Player 2"));
+  console.log('Nouvelle Partie');
+  console.log(Jeu.getJoueurs());
+  Jeu.update();
 }
 
 rollDice.onclick = () => {
@@ -31,6 +34,7 @@ class Joueur {
     this.nom = nom;
     this.global = 0;
     this.tour = 0;
+    this.html = "";
   }
 
   setName(nom){
@@ -66,10 +70,35 @@ class Partie {
   constructor(joueur1, joueur2) {
     this.joueurs = [joueur1, joueur2];
     this.actif = 0;
+    this.dice = 6;
+    this.over = false;
   }
 
   update() {
+    this.joueurs.forEach(joueur => {
+      joueur.html =     
+        '<div><p class="nom">'+joueur.getName()+'</p>'+
+        '<p class="score">'+joueur.getGlobalScore()+'</p></div>'+
+        '<div class="scoretour"><p class="title">Current</p><p class="tour">'+joueur.getTurnScore()+'</p></div>';
 
+      if(joueur.getGlobalScore() >= 100) {
+        this.over = true;
+        joueur.html += "<p>Winner</p>";
+      }
+    });
+    player1.innerHTML = this.joueurs[0].html;
+    player2.innerHTML = this.joueurs[1].html;
+
+    if(this.actif === 0) {
+      player1.style.backgroundColor = "#b6b6b6";
+      player2.style.backgroundColor = "transparent";
+      console.log('player 1 actif');
+    } else {
+      player2.style.backgroundColor = "#b6b6b6";
+      player1.style.backgroundColor = "transparent";
+      console.log('player 2 actif');
+    }
+    console.log('update')
   }
 
   getActif() {
@@ -81,20 +110,27 @@ class Partie {
   }
 
   rollDice() {
-    score = Math.floor(Math.random() * 5 + 1);
+    this.dice = Math.floor(Math.random() * 5 + 1);
 
-    if(score === 1) {
+    dice.children[0].src = "/images/dice"+this.dice+".svg";
+
+    if(this.dice === 1) {
       this.joueurs[this.actif].resetTurnScore();
-      this.joueurs[this.actif].hold();
+      this.hold();
     } else {
-      this.joueurs[this.actif].addScoreToTurn(score);
+      this.joueurs[this.actif].addScoreToTurn(this.dice);
+      this.update();
     }
+
+    console.log(this.dice);  
   }
 
   hold() {
     this.joueurs[this.actif].addScoreToGlobal();
+    this.joueurs[this.actif].resetTurnScore();
     this.actif +=1;
     if(this.actif > 1) this.actif = 0;
+    this.update();
   }
 
 }

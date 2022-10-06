@@ -29,14 +29,14 @@
 
   <title>Roll The Dice</title>
 
-  <script src="/js/script.js"></script>
+  <script src="/js/script.js" defer async></script>
 </head>
 <body>
   <main>
-    <div id="gamePanel">
+    <div id="gamePanel" class="container text-center">
       <div 
         id="battlefield" 
-        class="container text-center"
+        class="row"
       >
         <!-- Chaque joueur a 
           son Nom avec l'indicateur de tour 
@@ -45,13 +45,13 @@
         -->
         <div 
           id="player1"
-          class="col"
+          class="col d-flex flex-column align-items-center justify-content-center"
         >
           <!-- script.js insère les élément du joueur 1 ici -->
         </div>
         <div 
           id="player2"
-          class="col"
+          class="col d-flex flex-column align-items-center justify-content-center"
         >
           <!-- script.js insère les élément du joueur 2 ici -->
         </div>
@@ -68,7 +68,7 @@
           </div>
           <div id="dice" class="p-2">
             <!-- script.js insère le résultat du dé ici -->
-            <img src="/images/dice1.svg" alt="" width="100">
+            <img src="/images/dice6.svg" alt="" width="100">
           </div>
           <div class="p-2 d-flex flex-column align-items-center">
             <div id="rollDice">
