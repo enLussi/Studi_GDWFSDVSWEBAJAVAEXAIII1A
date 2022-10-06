@@ -13,20 +13,28 @@ var rollDice = document.getElementById('rollDice');
 var hold = document.getElementById('hold');
 
 var Jeu = undefined;
+rollDice.style.visibility = "hidden";
+hold.style.visibility = "hidden";
 
 newGame.onclick = () => {
-  Jeu = new Partie(new Joueur("Player 1"), new Joueur("Player 2"));
+  Jeu = new Partie(new Joueur("Player 1"), new Joueur("Player 2"), 20);
+  rollDice.style.visibility = "visible";
+  hold.style.visibility = "visible";
   console.log('Nouvelle Partie');
   console.log(Jeu.getJoueurs());
   Jeu.update();
 }
 
 rollDice.onclick = () => {
-  Jeu.rollDice();
+  if(!Jeu.over) {
+    Jeu.rollDice();
+  }
 };
 
 hold.onclick = () => {
-  Jeu.hold();
+  if(!Jeu.over) {
+    Jeu.hold();
+  }
 }
 
 class Joueur {
@@ -67,11 +75,13 @@ class Joueur {
 }
 
 class Partie {
-  constructor(joueur1, joueur2) {
+  constructor(joueur1, joueur2, maxpoint) {
     this.joueurs = [joueur1, joueur2];
     this.actif = 0;
     this.dice = 6;
+
     this.over = false;
+    this.maxpoint = maxpoint;
   }
 
   update() {
@@ -81,20 +91,27 @@ class Partie {
         '<p class="score">'+joueur.getGlobalScore()+'</p></div>'+
         '<div class="scoretour"><p class="title">Current</p><p class="tour">'+joueur.getTurnScore()+'</p></div>';
 
-      if(joueur.getGlobalScore() >= 100) {
+      if(joueur.getGlobalScore() >= this.maxpoint) {
         this.over = true;
-        joueur.html += "<p>Winner</p>";
+        joueur.html += "<p id=win>Winner</p>";
+
+        rollDice.style.visibility = "hidden";
+        hold.style.visibility = "hidden";
       }
     });
     player1.innerHTML = this.joueurs[0].html;
     player2.innerHTML = this.joueurs[1].html;
 
     if(this.actif === 0) {
-      player1.style.backgroundColor = "#b6b6b6";
+      player1.style.backgroundColor = "#dbdbdb";
+      player1.firstChild.firstChild.style.fontWeight = "400";
+
       player2.style.backgroundColor = "transparent";
       console.log('player 1 actif');
     } else {
-      player2.style.backgroundColor = "#b6b6b6";
+      player2.style.backgroundColor = "#dbdbdb";
+      player2.firstChild.firstChild.style.fontWeight = "400";
+
       player1.style.backgroundColor = "transparent";
       console.log('player 2 actif');
     }

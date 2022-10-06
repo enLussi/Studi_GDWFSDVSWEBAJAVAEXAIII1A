@@ -34,6 +34,8 @@ body {
 
 #actions>div {
   height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 150px;
 }
 
 button {
@@ -46,30 +48,51 @@ button {
   text-align: center;
 }
 
-.nom {
+#rollDice, #hold {
+  padding: 10px 0;
+}
+
+#player1, #player2 {
   font-weight: 100;
+  padding: 150px 0;
+  position: relative;
+}
+
+.nom {
   text-transform: uppercase;
   font-size: 50px;
 }
 
 .score {
-  font-weight: 100;
   text-transform: uppercase;
   font-size: 50px;
 }
 
 .scoretour {
-  background-color: #c55151;
+  background-color: #e67777;
   width: 150px;
-  height: 100px;
+  height: fit-content;
+  padding: 10px;
 }
 
 .scoretour>.title {
   font-weight: 300;
   font-size: 20px;
+  margin: 0;
 }
 
 .scoretour>.tour {
   font-size: 40px;
   color: white;
+  margin: 0;
+}
+
+#win {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 40px;
+  font-weight: 400;
 }
