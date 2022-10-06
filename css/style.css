@@ -7,12 +7,17 @@
 body {
   display: none;
   width: 100%;
+  height: 100vh;
 
   color: #424242;
 }
 
 #gamePanel {
   position: relative;
+}
+
+#battlefield {
+  height: 100vh;
 }
 
 #actions {
@@ -26,6 +31,10 @@ body {
   transform: translateX(-50%);
 }
 
+#actions>div {
+  height: 100vh;
+}
+
 button {
   border: none;
   background-color: transparent;
@@ -33,4 +42,5 @@ button {
   color: inherit;
   text-transform: uppercase;
   font-size: 18px;
+  text-align: center;
 }
